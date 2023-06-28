@@ -17,5 +17,5 @@ docker login ghcr.io -u USERNAME
 ## Push on repo github
 
 ```bash
-docker push -p 3000:3000 ghcr.io/do3-2023/<YOUR_REPO_NAME>:latest
+docker push ghcr.io/do3-2023/<YOUR_REPO_NAME>:latest
 ```
