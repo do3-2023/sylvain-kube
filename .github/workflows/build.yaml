@@ -39,7 +39,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: ${{ env.REGISTRY }}/${{ github.repository }}
+        images: ${{ env.REGISTRY }}/${{ github.repository }}/api
         tags: type=sha
 
     - name: Build and push Docker image
@@ -79,7 +79,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v4
       with:
-        images: ${{ env.REGISTRY }}/${{ github.repository }}
+        images: ${{ env.REGISTRY }}/${{ github.repository }}/webapp
         tags: type=sha
 
     - name: Build and push Docker image
