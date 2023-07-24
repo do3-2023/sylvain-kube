@@ -9,11 +9,10 @@ type Alcohol = {
 
 
 export const getServerSideProps: GetServerSideProps<{ alcohol: Alcohol }> = async () => {
-
     let alcohol: any;
-
+    let api_url: string = process.env.API_URL || "http://api.back.svc.cluster.local";
     try {
-        const res = await fetch('http://api:5000/api/alcohol');
+        const res = await fetch(`${api_url}/api/alcohol`);
         alcohol = await res.json();
 
     } catch (error) {
