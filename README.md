@@ -10,6 +10,12 @@ This repository contains a `Kubernetes-native web application` that can be deplo
 
 ## Deployment
 
+Create the necessary namespaces:
+
+```bash
+for namespace in front back data; do kubectl create namespace $namespace; done
+```
+
 To deploy the web application, run the following command:
 
 ```bash
