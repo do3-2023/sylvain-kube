@@ -19,10 +19,7 @@ spec:
         app: db
     spec:
       containers:
-      - image: postgres:15
-        name: postgres
-        resources: {}
-        env:
+      - env:
         - name: POSTGRES_DB
           value: alcohols
         - name: POSTGRES_USER
@@ -32,6 +29,31 @@ spec:
             secretKeyRef:
               name: db
               key: password
+        image: postgres:15
+        name: postgres
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - 'pg_isready -U alcohols'
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 2
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - 'pg_isready -U alcohols'
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 2
+        resources:
+          limits: {}
+          requests:
+            memory: 256Mi
+            cpu: 250m
         volumeMounts:
         - name: db-init-script
           mountPath: /docker-entrypoint-initdb.d/

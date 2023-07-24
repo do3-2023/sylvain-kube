@@ -19,3 +19,9 @@ docker login ghcr.io -u USERNAME
 ```bash
 docker push ghcr.io/do3-2023/<YOUR_REPO_NAME>:latest
 ```
+
+## Get url
+
+```bash
+kubectl -n front get svc webapp -o jsonpath={.spec.ports[0].nodePort}
+```

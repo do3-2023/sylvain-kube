@@ -21,12 +21,33 @@ spec:
       containers:
       - image: ghcr.io/do3-2023/sylvain-kube/api:latest
         name: api
-        resources: {}
         env:
         - name: DATABASE_URL
           valueFrom:
             secretKeyRef:
               name: api
               key: database_url
-
+        livenessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 2
+        readinessProbe:
+          httpGet:
+            path: /api/healthz
+            port: 5000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 2
+        resources:
+          limits: {}
+          requests:
+            memory: 256Mi
+            cpu: 250m
+      initContainers:
+      - name: init-pg
+        image: busybox
+        command: ['sh', '-c', 'until nc -zv db.data.svc.cluster.local 5432; do echo waiting for PostgreSQL; sleep 2; done;']
 status: {}
