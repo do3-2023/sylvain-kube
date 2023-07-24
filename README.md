@@ -1,27 +1,39 @@
-## Run `webapp` locally
+<h1 align="center">Webapp That Decides Your Next Drink</h1>
+
+<p align="center">
+    <img src="https://media.tenor.com/mBLX9j5CuMIAAAAC/thor-another.gif" alt="gif-drink" width=300 />
+</p>
+
+## Description
+
+This repository contains a `Kubernetes-native web application` that can be deployed using **Kubernetes manifests**.
+
+## Deployment
+
+To deploy the web application, run the following command:
 
 ```bash
-cd webapp
-docker build -t ghcr.io/do3-2023/<YOUR_REPO_NAME>:latest --target runner .
-docker run -p 3000:3000 ghcr.io/do3-2023/<YOUR_REPO_NAME>:latest
+kubectl apply -Rf kube/
 ```
 
-## Login to `ghcr.io`
+## Access the web application 
 
-You need to create TOKEN before
+To retrieve the URL for accessing the web application, use the following script:
 
 ```bash
-docker login ghcr.io -u USERNAME 
+# Get the IP address of one "kubernetes" node
+KUBERNETES_IP=$(kubectl get endpoints kubernetes -o jsonpath='{.subsets[0].addresses[0].ip}')
+
+# Get the NodePort of the "webapp" service in the "front" namespace
+WEBAPP_NODEPORT=$(kubectl -n front get svc webapp -o jsonpath='{.spec.ports[0].nodePort}')
+
+# Combine the IP address and NodePort to get the complete URL
+WEBAPP_URL="${KUBERNETES_IP}:${WEBAPP_NODEPORT}"
+
+# Print the complete URL
+echo $WEBAPP_URL
 ```
 
-## Push on repo github
+---
 
-```bash
-docker push ghcr.io/do3-2023/<YOUR_REPO_NAME>:latest
-```
-
-## Get url
-
-```bash
-kubectl -n front get svc webapp -o jsonpath={.spec.ports[0].nodePort}
-```
+Made with :sparkling_heart: by [Sylvain Pierrot](https://github.com/sylvain-pierrot)
