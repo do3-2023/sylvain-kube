@@ -52,6 +52,20 @@ WEBAPP_URL="${KUBERNETES_IP}:${WEBAPP_NODEPORT}"
 echo $WEBAPP_URL
 ```
 
+## 🗑️ Uninstall
+
+To uninstall, execute the following commands:
+
+```bash
+# Delete the local cluster using kind
+kind delete cluster
+```
+
+```bash
+# Delete the resources defined in the kube/ directory
+kubectl delete -Rf kube/
+```
+
 ---
 
 Made with :sparkling_heart: by [Sylvain Pierrot](https://github.com/sylvain-pierrot)
