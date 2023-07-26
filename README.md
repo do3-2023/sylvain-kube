@@ -28,7 +28,7 @@ for namespace in front back data; do kubectl create namespace $namespace; done
 kubectl apply -Rf kube/
 ```
 
-## Access the web application 
+## 🌐 Access the web application 
 
 To retrieve the **URL** for accessing the web application, use the following script:
 
