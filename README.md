@@ -8,15 +8,21 @@
 
 This repository contains a `Kubernetes-native web application` that can be deployed using **Kubernetes manifests**.
 
-## Deployment
+## 🚀 Deployment
 
-Create the necessary namespaces:
+1. **Suggestion**: use `kind` to create a **local cluster**:
+
+```bash
+kind create cluster
+```
+
+2. Create the necessary **namespaces**:
 
 ```bash
 for namespace in front back data; do kubectl create namespace $namespace; done
 ```
 
-To deploy the web application, run the following command:
+3. To **deploy** the **web application**, run the following command at the project root:
 
 ```bash
 kubectl apply -Rf kube/
@@ -24,7 +30,7 @@ kubectl apply -Rf kube/
 
 ## Access the web application 
 
-To retrieve the URL for accessing the web application, use the following script:
+To retrieve the **URL** for accessing the web application, use the following script:
 
 ```bash
 # Get the IP address of one "kubernetes" node
