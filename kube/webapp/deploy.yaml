@@ -19,8 +19,10 @@ spec:
         app: webapp
     spec:
       containers:
-      - image: ghcr.io/do3-2023/sylvain-kube/webapp:latest
-        name: webapp
+      - env:
+        - name: API_URL
+          value: http://api.back.svc.cluster.local
+        image: ghcr.io/do3-2023/sylvain-kube/webapp:latest
         livenessProbe:
           httpGet:
             path: /
@@ -28,6 +30,7 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
           failureThreshold: 2
+        name: webapp
         readinessProbe:
           httpGet:
             path: /
@@ -41,7 +44,10 @@ spec:
             memory: 256Mi
             cpu: 250m
       initContainers:
-      - name: init-api
+      - command:
+        - sh
+        - -c
+        - 'until nc -zv api.back.svc.cluster.local 80; do echo waiting for API; sleep 2; done;'
         image: busybox
-        command: ['sh', '-c', 'until nc -zv api.back.svc.cluster.local 80; do echo waiting for API; sleep 2; done;']
+        name: check-api
 status: {}

@@ -30,7 +30,6 @@ spec:
               name: db
               key: password
         image: postgres:15
-        name: postgres
         livenessProbe:
           exec:
             command:
@@ -40,6 +39,7 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 5
           failureThreshold: 2
+        name: postgres
         readinessProbe:
           exec:
             command:
