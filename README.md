@@ -8,21 +8,27 @@
 
 This repository contains a **Kubernetes-native web application** that can be deployed using [kubernetes](https://kubernetes.io/) manifests.
 
+## 📋 Requirements
+
+- Consider setting up a **local cluster** using kind. [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation).
+  ```bash
+  kind create cluster
+  ```
+
+- Install the latest [Metrics Server](https://github.com/kubernetes-sigs/metrics-server) release from the components.yaml manifest.
+  ```bash
+  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+  ```
+
 ## 🚀 Deployment
 
-1. **Suggestion**: use [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) to create a **local cluster**:
-
-```bash
-kind create cluster
-```
-
-2. Create the necessary **namespaces**:
+1. Create the necessary **namespaces**:
 
 ```bash
 for namespace in front back data; do kubectl create namespace $namespace; done
 ```
 
-3. To **deploy** the web application, run the following command at the project root:
+2. To **deploy** the web application, run the following command at the project root:
 
 ```bash
 kubectl apply -Rf kube/
