@@ -12,7 +12,7 @@ services:
   api:
     build:
       context: api
-      target: prod
+      target: dev
     restart: always
     environment:
       PORT: 5000
