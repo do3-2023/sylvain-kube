@@ -1,5 +1,5 @@
 ## DEV
-FROM node:19-alpine AS dev
+FROM node:20-alpine AS dev
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ CMD [ "yarn", "dev" ]
 
 
 ## BUILD
-FROM node:19-alpine AS build
+FROM node:20-alpine AS build
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN yarn run build
 
 
 ## PROD
-FROM node:19-alpine AS prod 
+FROM node:20-alpine AS prod 
 
 WORKDIR /app
 
