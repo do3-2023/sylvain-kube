@@ -17,7 +17,9 @@ import AlcoholForm from "@/components/forms/alcohol";
 import { getRandomAlcohol, Alcohol } from "./actions";
 
 export default function Home() {
-  const [alcohol, setAlcohol] = useState<Alcohol | null>(null);
+  const [alcohol, setAlcohol] = useState<Omit<Alcohol, "description"> | null>(
+    null
+  );
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const refreshData = () => {
@@ -43,15 +45,9 @@ export default function Home() {
           <Card>
             <CardHeader>
               {!alcohol || isRefreshing ? (
-                <>
-                  <Skeleton className="h-8 w-32" />
-                  <Skeleton className="h-12 w-full" />
-                </>
+                <Skeleton className="h-8 w-32" />
               ) : (
-                <>
-                  <CardTitle>{alcohol.name}</CardTitle>
-                  <CardDescription>{alcohol.description}</CardDescription>
-                </>
+                <CardTitle>{alcohol.name}</CardTitle>
               )}
             </CardHeader>
             <CardContent>

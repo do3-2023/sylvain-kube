@@ -13,7 +13,7 @@ export type Alcohol = {
 
 export async function getRandomAlcohol() {
   const res = await fetch(`${API_URL}/api/alcohol`);
-  let alcohol: Alcohol = await res.json();
+  let alcohol: Omit<Alcohol, "description"> = await res.json();
 
   return alcohol;
 }
