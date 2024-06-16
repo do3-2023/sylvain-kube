@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import pool from "../config/database";
-import { log } from "console";
 import { validationResult } from "express-validator";
 
 class AlcoholController {
@@ -8,7 +7,7 @@ class AlcoholController {
 
   async getRandomAlcohol(req: Request, res: Response) {
     const result = await pool.query(
-      "SELECT name, image_url FROM alcohols ORDER BY RANDOM() LIMIT 1;"
+      "SELECT name, image_url, description FROM alcohols ORDER BY RANDOM() LIMIT 1;"
     );
     const alcohol = result.rows[0];
     return res.status(200).send(alcohol);
@@ -22,14 +21,18 @@ class AlcoholController {
     }
 
     const insert =
-      "INSERT INTO alcohols (name, image_url) VALUES($1, $2) ON CONFLICT (name) DO NOTHING;";
-    const values = [req.body["name"], req.body["image_url"]];
+      "INSERT INTO alcohols (name, image_url, description) VALUES($1, $2, $3) ON CONFLICT (name) DO NOTHING;";
+    const values = [
+      req.body["name"],
+      req.body["image_url"],
+      req.body["description"],
+    ];
 
     try {
       await pool.query(insert, values);
       res.status(201).send("Successfully inserted");
     } catch (e) {
-      res.status(500).send("Insert failed");
+      res.status(500).send(`Insert failed: ${e}`);
     }
   }
 }

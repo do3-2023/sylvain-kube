@@ -11,8 +11,30 @@ router.get(
 
 router.post(
   "/alcohol",
-  body("name").isString().bail().notEmpty().bail().exists(),
-  body("image_url").isURL().bail().notEmpty().bail().exists(),
+  body("name")
+    .isString()
+    .bail()
+    .isLength({ max: 30, min: 1 })
+    .bail()
+    .notEmpty()
+    .bail()
+    .exists(),
+  body("image_url")
+    .isURL()
+    .bail()
+    .isLength({ max: 180, min: 1 })
+    .bail()
+    .notEmpty()
+    .bail()
+    .exists(),
+  body("description")
+    .isString()
+    .bail()
+    .isLength({ max: 100, min: 1 })
+    .bail()
+    .notEmpty()
+    .bail()
+    .exists(),
   alcoholController.postRandomAlcohol.bind(alcoholController)
 );
 

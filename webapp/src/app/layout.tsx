@@ -27,6 +27,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        <h1>GROS CACA</h1>
         {children}
       </body>
     </html>
