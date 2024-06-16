@@ -8,12 +8,11 @@ const API_URL = process.env.API_URL || "http://api.back.svc.cluster.local";
 export type Alcohol = {
   name: string;
   image_url: string;
-  description: string;
 };
 
 export async function getRandomAlcohol() {
   const res = await fetch(`${API_URL}/api/alcohol`);
-  let alcohol: Omit<Alcohol, "description"> = await res.json();
+  let alcohol: Alcohol = await res.json();
 
   return alcohol;
 }

@@ -26,7 +26,6 @@ import { createAlcohol } from "@/app/actions";
 export const FormSchema = z.object({
   name: z.string().min(1).max(30),
   image_url: z.string().url().min(1).max(180),
-  description: z.string().min(1).max(200),
 });
 
 export default function AlcoholForm() {
@@ -35,7 +34,6 @@ export default function AlcoholForm() {
     defaultValues: {
       name: "",
       image_url: "",
-      description: "",
     },
   });
 
@@ -89,22 +87,6 @@ export default function AlcoholForm() {
                   <FormControl>
                     <Input
                       placeholder="e.g., https://example.com/image.jpg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="e.g., A distilled alcoholic beverage made from fermented grain mash."
                       {...field}
                     />
                   </FormControl>

@@ -20,17 +20,10 @@ class AlcoholController {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const insert =
-      "INSERT INTO alcohols (name, image_url, description) VALUES($1, $2, $3);";
-    const values = [
-      req.body["name"],
-      req.body["image_url"],
-      req.body["description"],
-    ];
+    const insert = "INSERT INTO alcohols (name, image_url) VALUES($1, $2);";
+    const values = [req.body["name"], req.body["image_url"]];
 
     try {
-      console.log("sdssdsdsd");
-
       await pool.query(insert, values);
       res.status(201).send("Successfully inserted");
     } catch (e: any) {

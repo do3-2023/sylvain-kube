@@ -17,9 +17,7 @@ import AlcoholForm from "@/components/forms/alcohol";
 import { getRandomAlcohol, Alcohol } from "./actions";
 
 export default function Home() {
-  const [alcohol, setAlcohol] = useState<Omit<Alcohol, "description"> | null>(
-    null
-  );
+  const [alcohol, setAlcohol] = useState<Alcohol | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const refreshData = () => {
