@@ -1,4 +1,5 @@
-import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+"use client";
+
 import {
   Card,
   CardContent,
@@ -10,44 +11,26 @@ import {
 import "@/styles/globals.css";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/router";
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { NextPageWithLayout } from "./_app";
-import Layout from "@/components/layout";
 import AlcoholForm from "@/components/forms/alcohol";
+import { getRandomAlcohol, Alcohol } from "./actions";
 
-type Alcohol = {
-  name: string;
-  image_url: string;
-  description: string;
-};
-
-export const getServerSideProps = (async () => {
-  let api_url: string =
-    process.env.API_URL || "http://api.back.svc.cluster.local";
-  const res = await fetch(`${api_url}/api/alcohol`);
-  let alcohol: Alcohol = await res.json();
-
-  await new Promise((resolve) => setTimeout(resolve, 300));
-
-  return { props: { alcohol } };
-}) satisfies GetServerSideProps<{ alcohol: Alcohol }>;
-
-const Home: NextPageWithLayout<
-  InferGetServerSidePropsType<typeof getServerSideProps>
-> = ({ alcohol }) => {
-  const router = useRouter();
+export default function Home() {
+  const [alcohol, setAlcohol] = useState<Alcohol | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const refreshData = () => {
-    router.replace(router.asPath);
     setIsRefreshing(true);
+    getRandomAlcohol().then((alcohol) => {
+      setAlcohol(alcohol);
+      setIsRefreshing(false);
+    });
   };
 
   useEffect(() => {
-    setIsRefreshing(false);
-  }, [alcohol]);
+    refreshData();
+  }, []);
 
   return (
     <>
@@ -59,7 +42,7 @@ const Home: NextPageWithLayout<
         <TabsContent value="random">
           <Card>
             <CardHeader>
-              {isRefreshing ? (
+              {!alcohol || isRefreshing ? (
                 <>
                   <Skeleton className="h-8 w-32" />
                   <Skeleton className="h-12 w-full" />
@@ -73,7 +56,7 @@ const Home: NextPageWithLayout<
             </CardHeader>
             <CardContent>
               <div className="flex justify-center">
-                {isRefreshing ? (
+                {!alcohol || isRefreshing ? (
                   <Skeleton className="h-[300px] w-full" />
                 ) : (
                   <img
@@ -95,10 +78,4 @@ const Home: NextPageWithLayout<
       </Tabs>
     </>
   );
-};
-
-Home.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>;
-};
-
-export default Home;
+}

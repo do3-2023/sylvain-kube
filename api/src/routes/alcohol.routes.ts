@@ -30,7 +30,7 @@ router.post(
   body("description")
     .isString()
     .bail()
-    .isLength({ max: 100, min: 1 })
+    .isLength({ max: 200, min: 1 })
     .bail()
     .notEmpty()
     .bail()

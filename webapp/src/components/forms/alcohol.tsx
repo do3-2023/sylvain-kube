@@ -21,19 +21,13 @@ import {
 } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "@/components/ui/textarea";
+import { createAlcohol } from "@/app/actions";
 
 export const FormSchema = z.object({
   name: z.string().min(1).max(30),
   image_url: z.string().url().min(1).max(180),
-  description: z.string().min(1).max(100),
+  description: z.string().min(1).max(200),
 });
-
-const truncate = (text: string, maxLength: number) => {
-  if (text.length > maxLength) {
-    return text.substring(0, maxLength) + "...";
-  }
-  return text;
-};
 
 export default function AlcoholForm() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -46,22 +40,19 @@ export default function AlcoholForm() {
   });
 
   function onSubmit(values: z.infer<typeof FormSchema>) {
-    const truncatedValues = {
-      name: truncate(values.name, 20),
-      image_url: truncate(values.image_url, 20),
-      description: truncate(values.description, 20),
-    };
-
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">
-            {JSON.stringify(truncatedValues, null, 2)}
-          </code>
-        </pre>
-      ),
-    });
+    createAlcohol(values)
+      .then(() => {
+        toast({
+          title: "Successfully created!",
+        });
+      })
+      .catch((reason: Error) => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: reason.message,
+        });
+      });
   }
 
   return (
@@ -80,7 +71,7 @@ export default function AlcoholForm() {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Name (unique)</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., Whiskey" {...field} />
                   </FormControl>

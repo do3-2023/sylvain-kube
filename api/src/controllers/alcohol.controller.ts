@@ -21,7 +21,7 @@ class AlcoholController {
     }
 
     const insert =
-      "INSERT INTO alcohols (name, image_url, description) VALUES($1, $2, $3) ON CONFLICT (name) DO NOTHING;";
+      "INSERT INTO alcohols (name, image_url, description) VALUES($1, $2, $3);";
     const values = [
       req.body["name"],
       req.body["image_url"],
@@ -29,10 +29,17 @@ class AlcoholController {
     ];
 
     try {
+      console.log("sdssdsdsd");
+
       await pool.query(insert, values);
       res.status(201).send("Successfully inserted");
-    } catch (e) {
-      res.status(500).send(`Insert failed: ${e}`);
+    } catch (e: any) {
+      if (e.code === "23505") {
+        // PostgreSQL unique violation error code
+        res.status(409).json("Conflict: Alcohol with this name already exists");
+      } else {
+        res.status(500).json("Failed to create or insert data");
+      }
     }
   }
 }
