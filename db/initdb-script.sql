@@ -1,8 +1,8 @@
 CREATE TABLE alcohols (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL, -- Name of the alcoholic beverage
-  image_url VARCHAR(200),     -- URL of the image representing the beverage
-  description TEXT            -- Description of the alcoholic beverage
+  image_url VARCHAR(200) NOT NULL,     -- URL of the image representing the beverage
+  description TEXT NOT NULL         -- Description of the alcoholic beverage
 );
 
 ALTER TABLE alcohols ADD CONSTRAINT unique_name UNIQUE (name);
