@@ -42,6 +42,7 @@ export default function AlcoholForm() {
   function onSubmit(values: z.infer<typeof FormSchema>) {
     createAlcohol(values)
       .then(() => {
+        form.reset();
         toast({
           title: "Successfully created!",
         });
