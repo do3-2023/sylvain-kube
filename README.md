@@ -1,55 +1,25 @@
-<h1 align="center">Webapp That Decides Your Next Drink</h1>
+<h1 align="center">Get Random Item</h1>
 
 <p align="center">
-    <img src="https://media.tenor.com/mBLX9j5CuMIAAAAC/thor-another.gif" alt="gif-drink" width=300 />
+    <img src="https://media.tenor.com/R8irsWesoJ8AAAAj/dice.gif" alt="gif-drink" width=300 />
 </p>
 
-## Description
+## 📋 Description
 
-This repository contains a **Kubernetes-native web application** that can be deployed using [kubernetes](https://kubernetes.io/) manifests.
-
-## 📋 Requirements
-
-- Consider setting up a **local cluster** using kind. [kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation).
-  ```bash
-  kind create cluster
-  ```
-
-- Install the latest [Metrics Server](https://github.com/kubernetes-sigs/metrics-server) release from the components.yaml manifest.
-  ```bash
-  kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-  ```
+Single-Feature Webapp aims to get random item. Its architecture is designed to be **Kubernetes-native web application**.
 
 ## 🚀 Deployment
 
-1. Create the necessary **namespaces**:
+### Prototyping environment
 
 ```bash
-for namespace in front back data; do kubectl create namespace $namespace; done
+docker compose up --build --force-recreate --renew-anon-volumes
 ```
 
-2. To **deploy** the web application, run the following command at the project root:
+### Prod-ready environment
 
 ```bash
-kubectl apply -Rf kube/
-```
-
-## 🌐 Access the web application 
-
-To **retrieve** the **URL** for accessing the web application, use the following script:
-
-```bash
-# Get the IP address of one "kubernetes" node
-KUBERNETES_IP=$(kubectl get endpoints kubernetes -o jsonpath='{.subsets[0].addresses[0].ip}')
-
-# Get the NodePort of the "webapp" service in the "front" namespace
-WEBAPP_NODEPORT=$(kubectl -n front get svc webapp -o jsonpath='{.spec.ports[0].nodePort}')
-
-# Combine the IP address and NodePort to get the complete URL
-WEBAPP_URL="${KUBERNETES_IP}:${WEBAPP_NODEPORT}"
-
-# Print the complete URL
-echo $WEBAPP_URL
+helm install random-app ./charts/random-app -n random-app --create-namespace
 ```
 
 ## 🗑️ Uninstall
@@ -57,13 +27,7 @@ echo $WEBAPP_URL
 To uninstall, execute the following commands:
 
 ```bash
-# Delete the local cluster using kind
-kind delete cluster
-```
-
-```bash
-# Delete the resources defined in the kube/ directory
-kubectl delete -Rf kube/
+helm uninstall random-app -n random-app
 ```
 
 ---
