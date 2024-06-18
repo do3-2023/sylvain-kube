@@ -1,0 +1,25 @@
+name: "[CI] Webapp"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "webapp/**"
+    tags:
+      - "v*"
+
+jobs:
+  build-and-push:
+    name: Build and push action
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/build-push-action.yaml
+    with:
+      registry: ghcr.io
+      image-name: postgres
+      context: db
+      target: prod
+      file: Dockerfile
