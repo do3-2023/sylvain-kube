@@ -1,13 +1,13 @@
 services:
   db:
-    image: postgres:15
     restart: always
+    build:
+      context: db
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: userdemo
       POSTGRES_DB: alcohols
     volumes:
-      - ./db/:/docker-entrypoint-initdb.d/
       # this takes advantage of the feature in Docker that a new anonymous
       # volume (which is what we're creating here) will be initialized with the
       # existing content of the image at the same location
