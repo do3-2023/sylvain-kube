@@ -48,7 +48,9 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ inputs.registry }}/${{ github.repository }}/${{ inputs.image-name }}
-          tags: type=sha
+          tags: |
+            type=semver,pattern={{major}}
+            type=sha
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
