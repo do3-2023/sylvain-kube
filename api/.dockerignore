@@ -1,6 +1,0 @@
-.gitignore
-.git
-*.md
-.env
-/node_modules
-Dockerfile

@@ -1,0 +1,25 @@
+spin_manifest_version = 2
+
+[application]
+name = "api"
+version = "0.1.0"
+authors = ["sylvain-pierrot <sylvain.pierrot@etu.umontpellier.fr>"]
+description = ""
+
+[variables]
+database_url = { required = true } # export SPIN_VARIABLE_DATABASE_URL="postgres://userdemo:password@localhost:5432/alcohols?sslmode=disable"
+
+[[trigger.http]]
+route = "/..."
+component = "api"
+
+[component.api]
+source = "target/wasm32-wasi/release/api.wasm"
+allowed_outbound_hosts = ["postgres://*:5432"]
+
+[component.api.variables]
+database_url = "{{ database_url }}"
+
+[component.api.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]

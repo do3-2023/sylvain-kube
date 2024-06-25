@@ -1,0 +1,19 @@
+[package]
+name = "api"
+authors = ["sylvain-pierrot <sylvain.pierrot@etu.umontpellier.fr>"]
+description = ""
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+anyhow = "1"
+chrono = "0.4.38"
+log = "0.4.21"
+serde = { version = "1.0.203", features = ["derive"] }
+serde_json = "1.0.117"
+spin-sdk = "3.0.1"
+
+[workspace]

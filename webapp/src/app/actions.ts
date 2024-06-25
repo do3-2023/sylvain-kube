@@ -11,7 +11,7 @@ export type Alcohol = {
 };
 
 export async function getRandomAlcohol() {
-  const res = await fetch(`${API_URL}/api/alcohol`);
+  const res = await fetch(`${API_URL}/api/item`);
   let alcohol: Alcohol = await res.json();
 
   return alcohol;
@@ -19,7 +19,7 @@ export async function getRandomAlcohol() {
 
 export async function createAlcohol(values: z.infer<typeof FormSchema>) {
   try {
-    const response = await fetch(`${API_URL}/api/alcohol`, {
+    const response = await fetch(`${API_URL}/api/item`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
